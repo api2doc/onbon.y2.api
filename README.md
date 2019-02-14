@@ -91,7 +91,7 @@ screen.clearPlayResources();
 screen.logout();
 ```
 
-### Play Marquee
+### Play a marquee
 ```java
 // 1
 Y2Screen screen = new Y2Screen(ip4);
@@ -105,10 +105,12 @@ if (!screen.login("guest", "guest")) {
 MarqueeArea area = new MarqueeArea(0, 0, screen.getWidth(), 40);
 area.addContent("Hello everyone.")
     .fgColor(Color.green)
-    .getFont().size(16)
+    .getFont()
+        .size(16)
 area.addContent("We are happy to announce that Y2 Java library has released.")
     .fgColor(Color.blue)
-    .getFont().size(20);
+    .getFont()
+        .size(20);
 
 
 // 3.2 create a playable program
@@ -125,12 +127,42 @@ screen.play(listId);
 screen.logout();
 ```
 
-### Create TextArea
+## Tutorial - Area and Program
+### Marquee Area
+The MarqueeArea is a single line text area which moves text horizontally from one side to another.
+```java
+MarqueeArea area = new MarqueeArea(0, 0, 128, 30);
+area.right2Left(true);
+
+// page1
+area.addContent("Hello everyone.")
+    .fgColor(Color.white)
+    .bgColor(Color.black)
+    .stuntSpeed(16)
+    .getFont()
+        .size(24)
+        .bold()
+        .strikeout()
+        .underline();
+
+// page2
+area.addContent("We are happy to announce that Y2 Java library has released.")
+    .fgColor(Color.black)
+    .bgColor(Color.white)
+    .stuntSpeed(1)
+    .getFont()
+        .size(20);
+
+```
+
+### Text Area
+The TextArea is text based area which displays content section by section.
 ```java
 TextArea area = new TextArea(0, 0, 128, 64);
 area.stuntType(10);
 
-area.addContent("Hello everyone.")
+// section1
+area.addTextSection("Hello everyone.")
     .fgColor(Color.white)
     .bgColor(Color.black)
     .stayTime(10)
@@ -144,7 +176,8 @@ area.addContent("Hello everyone.")
         .strikeout()
         .underline();
 
-area.addContent("We are happy to announce that Y2 Java library has released.")
+// section2
+area.addTextSection("We are happy to announce that Y2 Java library has released.")
     .fgColor(Color.black)
     .bgColor(Color.white)
     .stayTime(15)
@@ -156,23 +189,31 @@ area.addContent("We are happy to announce that Y2 Java library has released.")
         .size(20);
 
 ```
-### Create DateTimeArea
+
+### DateTime Area
+The DateTimeArea displays date and time with specific patterns. The DateTimeArea can be resized automatically according to content.
 ```java
-DateTimeArea area = new DateTimeArea(100, 40, 200, 60);
+DateTimeArea area;
+
+// x, y, width, height (fixed size)
+area = new DateTimeArea(100, 40, 200, 60);
+// x, y only (autosize)
+area = new DateTimeArea(100, 40);
+
 area.bgColor(Color.darkGray)
     .horizontalAlignment(AlignmentType.CENTER);
 
-// AM 8:16 2019-02-15
+// line1: AM 8:16 2019-02-15
 area.addUnits(DateTimePattern.AMPM_H_MM, DateTimePattern.YYYY_MM_DD1)
     .fgColor(Color.yellow);
     .getFont()
         .bold()
         .underline();
 
-// Friday
+// line2: Friday
 area.addUnits(DateTimePattern.WEEK);
 
-// February
+// line3: February
 area.addUnits(DateTimePattern.MONTH);
     .getFont()
         .bold();
