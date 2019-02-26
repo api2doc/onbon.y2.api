@@ -3,10 +3,12 @@ onbon.y2.cmd
 onbon.y2.cmd.controller
 onbon.y2.cmd.diagnosis
 onbon.y2.cmd.disk
+onbon.y2.cmd.dyn
 onbon.y2.cmd.file
 onbon.y2.cmd.font
 onbon.y2.cmd.prog
 onbon.y2.cmd.sensor
 onbon.y2.common
+onbon.y2.message
 onbon.y2.play
 onbon.y2.res
