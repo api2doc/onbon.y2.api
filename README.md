@@ -1,5 +1,6 @@
-Onbon Y2 Java Library
+Onbon Y2 Java Library (review)
 ===
+[Java Doc](https://api2doc.github.io/onbon.y2.api/)
 ## Introduction
 
 The Onbon Y2 Java library provides an API for operating full-color board of Y2 Series.
@@ -22,7 +23,8 @@ Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
   * stax-api
   * stax
   * xpp3
-
+## Android only
+* j2a - Java wrapper.
 
 ## Http Driver
 There are two http drivers: __Apache HttpComponents__ and __OkHttp__. Default driver Y2 API uses is Apache HttpComponents.
@@ -217,4 +219,38 @@ area.addUnits(DateTimePattern.WEEK);
 area.addUnits(DateTimePattern.MONTH);
     .getFont()
         .bold();
+```
+
+### Bulletin Area
+The bulletin area displays some important text based messages immediately.
+```java
+Y2BulletinManager bulletin = screen.bulletin();
+
+BulletinArea area1 = new BulletinArea(0, 0, 100, 40);
+area1.bgColor(Color.darkGry)
+     .fgColor(Color.red)
+     .content("News: We are happy to announce to release this API.")
+BulletinArea area2 = new BulletinArea(0, 0, 100, 40);
+area2.bgColor(Color.darkGry)
+     .fgColor(Color.green)
+     .content("News: Java Doc is available too.")
+
+bulletin.add(area1);
+bulletin.add(area2);
+
+bulletin.play();
+
+```
+
+### Dynamic Area
+The dynamic area displays some messages without any time configuration, and be deleted automatically after rebooting the hardware.
+```java
+DynamicPlayFile file = new DynamicPlayFile();
+
+DynamicArea area = file.create(0, 0, 100, 40);
+area.addText("Welcome to ONBON");
+area.addText("We are happy to announce to release this API")
+
+screen.writeDynamic(file);
+
 ```
