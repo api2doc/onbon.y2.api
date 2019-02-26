@@ -1,45 +1,9 @@
-Onbon Y2 Java Library (preview version)
+仰邦 Y2 Java 函式庫 (預覽版)
 ===
 * [API Document](https://api2doc.github.io/onbon.y2.api/)
-* [中文範例](README_TW.md)
 
-## Introduction
-
-The Onbon Y2 Java library provides an API for operating full-color board of Y2 Series.
-
-Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
-## Jar Files
-* __y2__ - Y2 core API
-* __y2-message__ - Y2 messages
-* __y2-Http__ - Y2 http interface
-* __y2-http-hc__ - Y2 http implementation
-  * httpmime
-    * httpclient
-      * httpcore
-      * commons-logging
-      * commons-codec
-* __y2-http-ok__ - Y2 http implementation
-  * okhttp
-* __uia-utils__ - Common utilities
-* __simple-xml__ - XML parser
-  * stax-api
-  * stax
-  * xpp3
-## Android only
-* j2a - Java wrapper.
-
-## Http Driver
-There are two http drivers: __Apache HttpComponents__ and __OkHttp__. Default driver Y2 API uses is Apache HttpComponents.
-* __Apache HttpComponents__
-
-  The driver runs on __Java 6+__. _Not support Andorid_.
-
-* __OkHttp__
-
-  The driver runs on __Java 8__ only and supports __Android__.
-
-## How To Use
-1. Initialize API runtime environment. Just once.
+## 如何使用
+1. 初始化 Y2 API 環境。僅需一次。
     ```java
     // without log4j
     Y2Env.initial();
@@ -54,27 +18,27 @@ There are two http drivers: __Apache HttpComponents__ and __OkHttp__. Default dr
     Y2Env.initial(pathToLog4j, true);
     ```
 
-2. Connect to a specific screen and run some commands.
+2. 連上特定的屏幕並執行一些命令。
     ```java
-    // 1. new screen instance
+    // 1. 建立一個新的屏幕
     Y2Screen screen = new Y2Screen(ip4);
 
-    // 2. login
+    // 2. 登入
     if (!screen.login(user, pwd)) {
         return;
     }
 
-    // 3. do something
+    // 3. 做些事情
     screen.turnOn();
     screen.changeVolume(60);
     ...
 
-    // 4. logout
+    // 4. 登出
     screen.logout();
     ```
 
-## Toturial
-### Simple Operations
+## 範例
+### 簡單的操作
 ```java
 // 1
 Y2Screen screen = new Y2Screen(ip4);
@@ -95,7 +59,7 @@ screen.clearPlayResources();
 screen.logout();
 ```
 
-### Play a marquee
+### 撥放一個跑馬燈
 ```java
 // 1
 Y2Screen screen = new Y2Screen(ip4);
@@ -105,7 +69,7 @@ if (!screen.login("guest", "guest")) {
     return;
 }
 
-// 3.1 create a marquee area
+// 3.1 建立一個跑馬燈分區
 MarqueeArea area = new MarqueeArea(0, 0, screen.getWidth(), 40);
 area.addContent("Hello everyone.")
     .fgColor(Color.green)
@@ -117,23 +81,23 @@ area.addContent("We are happy to announce that Y2 Java library has released.")
         .size(20);
 
 
-// 3.2 create a playable program
+// 3.2 建立一個可撥放的節目
 ProgramPlayFile prog = new ProgramPlayFile(1);
 prog.getAreas().add(area);
 
-// 3.3 write a playlist
+// 3.3 寫入節目，取得撥放清單編號。
 String listId = screen.writePlayList(playFile);
 
-// 3.4 play
+// 3.4 撥放
 screen.play(listId);
 
 // 4
 screen.logout();
 ```
 
-## Tutorial - Area and Program
-### Marquee Area
-The MarqueeArea is a single line text area which moves text horizontally from one side to another.
+## 範例 - 分區與節目
+### 跑馬燈分區 Marquee Area
+跑馬燈分區是一個單行文字的分區，將內容以水平移動的方式顯示在屏幕上。
 ```java
 MarqueeArea area = new MarqueeArea(0, 0, 128, 30);
 area.right2Left(true);
@@ -159,8 +123,8 @@ area.addContent("We are happy to announce that Y2 Java library has released.")
 
 ```
 
-### Text Area
-The TextArea is text based area which displays content section by section.
+### 文字分區 Text Area
+文字分區是一個以文字內容文主的分區，根據設置自動換行、分段顯示在屏幕上。
 ```java
 TextArea area = new TextArea(0, 0, 128, 64);
 area.stuntType(10);
@@ -194,8 +158,8 @@ area.addTextSection("We are happy to announce that Y2 Java library has released.
 
 ```
 
-### DateTime Area
-The DateTimeArea displays date and time with specific patterns. The DateTimeArea can be resized automatically according to content without values of the size.
+### 日期時間分區 DateTime Area
+日期時間分區根據設定將日期、時間、星期組合顯示在屏幕上。若沒有設定寬與高，日期時間分區會根據內容自動調分區大小顯示完整的內容。
 ```java
 DateTimeArea area;
 
@@ -223,8 +187,8 @@ area.addUnits(DateTimePattern.MONTH);
         .bold();
 ```
 
-### Bulletin Area
-The bulletin area displays some important text based messages immediately.
+### 公告分區 Bulletin Area
+公告分區用於即刻顯示一些重要的文字訊息。
 ```java
 Y2BulletinManager bulletin = screen.bulletin();
 
@@ -244,8 +208,8 @@ bulletin.play();
 
 ```
 
-### Dynamic Area
-The dynamic area displays some messages without any time configuration, and be deleted automatically after rebooting the hardware.
+### 動態分區 Dynamic Area
+動態分區可於即刻顯示訊息，無須時間設置，所有訊息於重開機之後自動被刪除。
 ```java
 DynamicPlayFile file = new DynamicPlayFile();
 
