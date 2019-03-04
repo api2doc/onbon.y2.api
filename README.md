@@ -237,10 +237,15 @@ area2.bgColor(Color.darkGry)
      .fgColor(Color.green)
      .content("News: Java Doc is available too.")
 
-bulletin.add(area1);
-bulletin.add(area2);
-
+// write to Y2
+bulletin.write(area1);
+bulletin.write(area2);
+// play
 bulletin.play();
+// delete
+bulletin.delete(2);
+// stop
+bulletin.stop();
 
 ```
 

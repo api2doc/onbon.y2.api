@@ -106,7 +106,7 @@ area.right2Left(true);
 area.addContent("Hello everyone.")
     .fgColor(Color.white)
     .bgColor(Color.black)
-    .stuntSpeed(16)
+    .animationSpeed(16)
     .getFont()
         .size(24)
         .bold()
@@ -117,7 +117,7 @@ area.addContent("Hello everyone.")
 area.addContent("We are happy to announce that Y2 Java library has released.")
     .fgColor(Color.black)
     .bgColor(Color.white)
-    .stuntSpeed(1)
+    .animationSpeed(1)
     .getFont()
         .size(20);
 
@@ -134,7 +134,7 @@ area.addTextSection("Hello everyone.")
     .fgColor(Color.white)
     .bgColor(Color.black)
     .stayTime(10)
-    .stuntSpeed(16)
+    .animationSpeed(16)
     .horizontalAlignment(AlignmentType.CENTER)
     .verticalAlignment(AlignmentType.CENTER)
     .rowHeight(30)
@@ -149,7 +149,7 @@ area.addTextSection("We are happy to announce that Y2 Java library has released.
     .fgColor(Color.black)
     .bgColor(Color.white)
     .stayTime(15)
-    .stuntSpeed(1)
+    .animationSpeed(1)
     .horizontalAlignment(AlignmentType.NEAR)
     .verticalAlignment(AlignmentType.FAR)
     .rowHeight(20)
@@ -201,10 +201,15 @@ area2.bgColor(Color.darkGry)
      .fgColor(Color.green)
      .content("News: Java Doc is available too.")
 
-bulletin.add(area1);
-bulletin.add(area2);
-
+// write to Y2
+bulletin.write(area1);
+bulletin.write(area2);
+// play
 bulletin.play();
+// delete
+bulletin.delete(2);
+// stop
+bulletin.stop();
 
 ```
 
