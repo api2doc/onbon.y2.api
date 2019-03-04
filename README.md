@@ -122,7 +122,7 @@ ProgramPlayFile prog = new ProgramPlayFile(1);
 prog.getAreas().add(area);
 
 // 3.3 write a playlist
-String listId = screen.writePlayList(playFile);
+String listId = screen.writePlaylist(playFile);
 
 // 3.4 play
 screen.play(listId);
@@ -146,14 +146,14 @@ area.addContent("Hello everyone.")
     .getFont()
         .size(24)
         .bold()
-        .strikeout()
+        .strikethrough()
         .underline();
 
 // page2
 area.addContent("We are happy to announce that Y2 Java library has released.")
     .fgColor(Color.black)
     .bgColor(Color.white)
-    .stuntSpeed(1)
+    .animationSpeed(1)
     .getFont()
         .size(20);
 
@@ -170,14 +170,14 @@ area.addTextSection("Hello everyone.")
     .fgColor(Color.white)
     .bgColor(Color.black)
     .stayTime(10)
-    .stuntSpeed(16)
+    .animationSpeed(16)
     .horizontalAlignment(AlignmentType.CENTER)
     .verticalAlignment(AlignmentType.CENTER)
     .rowHeight(30)
     .getFont()
         .size(24)
         .bold()
-        .strikeout()
+        .strikethrough()
         .underline();
 
 // section2
@@ -185,7 +185,7 @@ area.addTextSection("We are happy to announce that Y2 Java library has released.
     .fgColor(Color.black)
     .bgColor(Color.white)
     .stayTime(15)
-    .stuntSpeed(1)
+    .animationSpeed(1)
     .horizontalAlignment(AlignmentType.NEAR)
     .verticalAlignment(AlignmentType.FAR)
     .rowHeight(20)

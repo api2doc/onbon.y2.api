@@ -86,7 +86,7 @@ ProgramPlayFile prog = new ProgramPlayFile(1);
 prog.getAreas().add(area);
 
 // 3.3 寫入節目，取得撥放清單編號。
-String listId = screen.writePlayList(playFile);
+String listId = screen.writePlaylist(playFile);
 
 // 3.4 撥放
 screen.play(listId);
@@ -110,7 +110,7 @@ area.addContent("Hello everyone.")
     .getFont()
         .size(24)
         .bold()
-        .strikeout()
+        .strikethrough()
         .underline();
 
 // page2
@@ -141,7 +141,7 @@ area.addTextSection("Hello everyone.")
     .getFont()
         .size(24)
         .bold()
-        .strikeout()
+        .strikethrough()
         .underline();
 
 // section2
@@ -192,11 +192,11 @@ area.addUnits(DateTimePattern.MONTH);
 ```java
 Y2BulletinManager bulletin = screen.bulletin();
 
-BulletinArea area1 = new BulletinArea(1, "公告一", 0, 0, 100, 40);
+BulletinArea area1 = new BulletinArea(1, "公告一", 0, 0, 200, 40);
 area1.bgColor(Color.darkGry)
      .fgColor(Color.red)
      .content("News: We are happy to announce to release this API.")
-BulletinArea area2 = new BulletinArea(2, "公告二", 0, 0, 100, 40);
+BulletinArea area2 = new BulletinArea(2, "公告二", 0, 80, 200, 40);
 area2.bgColor(Color.darkGry)
      .fgColor(Color.green)
      .content("News: Java Doc is available too.")
