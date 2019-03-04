@@ -131,7 +131,25 @@ screen.play(listId);
 screen.logout();
 ```
 
-## Tutorial - Area and Program
+## Tutorial - Playlist, Program and Area
+### Playlist
+```java
+ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
+file1.getPlayWeek().all();
+file1.setPlayInTurn(5);
+file1.setPriority(1);
+
+String playlist = screen.writePlaylist(file1, ...);
+screen.play(playlist);
+```
+
+### Program
+```java
+ProgramPlayFile file = new ProgramPlayFile(2) // program_2
+file.getAreas().add(marqueeArea);
+file.getAreas().add(dateArea);
+```
+
 ### Marquee Area
 The MarqueeArea is a single line text area which moves text horizontally from one side to another.
 ```java
@@ -223,7 +241,7 @@ area.addUnits(DateTimePattern.MONTH);
         .bold();
 ```
 
-### Bulletin Area
+## Bulletin Area
 The bulletin area displays some important text based messages immediately.
 ```java
 Y2BulletinManager bulletin = screen.bulletin();
@@ -249,7 +267,7 @@ bulletin.stop();
 
 ```
 
-### Dynamic Area
+## Dynamic Area
 The dynamic area displays some messages without any time configuration, and be deleted automatically after rebooting the hardware.
 ```java
 Y2DynamicManager dyn = screen.dynamic();

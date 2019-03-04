@@ -96,25 +96,26 @@ screen.logout();
 ```
 
 ## 範例 - 播放清單、節目與分區
-### 播放清單 playlist
-播放清單是節目播放的基礎，一個播放清單內可以有一個以上的節目，每個節目可以有各自的設定如播放時間、等級等。
+### 播放清單 Playlist
+播放清單是節目播放的基礎，一個播放清單內可以有一個以上的節目，每個節目可以有各自的設定如播放時間、輪播次數、等級等。
 ```java
-ProgramPlayFile file = new ProgramPlayFile(2) // program_2
-file.getPlayWeek().all();
-file.setLoop(5);
-file.setPriority(1);
+ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
+file1.getPlayWeek().all();
+file1.setPlayInTurn(5);
+file1.setPriority(1);
 
-String playlist = screen.writePlaylist(pg1, pg2, ...);
+String playlist = screen.writePlaylist(file1, ...);
 screen.play(playlist);
 ```
 
-### 節目 Program Play File
+### 節目 Program
 節目用來定義屏幕上要顯示那些內容，內容透過區域進行管理。一個節目內可以有一個以上的區域，每個區域有各自的顯示位置與大小。
 ```java
 ProgramPlayFile file = new ProgramPlayFile(2) // program_2
-file.getAreas().add(area1);
-file.getAreas().add(area2);
+file.getAreas().add(marqueeArea);
+file.getAreas().add(dateArea);
 ```
+
 ### 跑馬燈分區 Marquee Area
 跑馬燈分區是一個單行文字的分區，將內容以水平移動的方式顯示在屏幕上。
 ```java
