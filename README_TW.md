@@ -95,7 +95,26 @@ screen.play(listId);
 screen.logout();
 ```
 
-## 範例 - 分區與節目
+## 範例 - 播放清單、節目與分區
+### 播放清單 playlist
+播放清單是節目播放的基礎，一個播放清單內可以有一個以上的節目，每個節目可以有各自的設定如播放時間、等級等。
+```java
+ProgramPlayFile file = new ProgramPlayFile(2) // program_2
+file.getPlayWeek().all();
+file.setLoop(5);
+file.setPriority(1);
+
+String playlist = screen.writePlaylist(pg1, pg2, ...);
+screen.play(playlist);
+```
+
+### 節目 Program Play File
+節目用來定義屏幕上要顯示那些內容，內容透過區域進行管理。一個節目內可以有一個以上的區域，每個區域有各自的顯示位置與大小。
+```java
+ProgramPlayFile file = new ProgramPlayFile(2) // program_2
+file.getAreas().add(area1);
+file.getAreas().add(area2);
+```
 ### 跑馬燈分區 Marquee Area
 跑馬燈分區是一個單行文字的分區，將內容以水平移動的方式顯示在屏幕上。
 ```java
@@ -133,7 +152,7 @@ area.stuntType(10);
 area.addTextSection("Hello everyone.")
     .fgColor(Color.white)
     .bgColor(Color.black)
-    .stayTime(10)
+    .stayTime(8)
     .animationSpeed(16)
     .horizontalAlignment(AlignmentType.CENTER)
     .verticalAlignment(AlignmentType.CENTER)
@@ -148,7 +167,7 @@ area.addTextSection("Hello everyone.")
 area.addTextSection("We are happy to announce that Y2 Java library has released.")
     .fgColor(Color.black)
     .bgColor(Color.white)
-    .stayTime(15)
+    .stayTime(9)
     .animationSpeed(1)
     .horizontalAlignment(AlignmentType.NEAR)
     .verticalAlignment(AlignmentType.FAR)
@@ -187,7 +206,7 @@ area.addUnits(DateTimePattern.MONTH);
         .bold();
 ```
 
-### 公告分區 Bulletin Area
+## 範例 - 公告分區 Bulletin Area
 公告分區用於即刻顯示一些重要的文字訊息。
 ```java
 Y2BulletinManager bulletin = screen.bulletin();
@@ -213,7 +232,7 @@ bulletin.stop();
 
 ```
 
-### 動態分區 Dynamic Area
+## 範例 - 動態分區 Dynamic Area
 動態分區可於即刻顯示訊息，無須時間設置，所有訊息於重開機之後自動被刪除。
 ```java
 Y2DynamicManager dyn = screen.dynamic();
