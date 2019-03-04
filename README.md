@@ -57,7 +57,7 @@ There are two http drivers: __Apache HttpComponents__ and __OkHttp__. Default dr
 2. Connect to a specific screen and run some commands.
     ```java
     // 1. new screen instance
-    Y2Screen screen = new Y2Screen(ip4);
+    Y2Screen screen = new Y2Screen("http://1.2.3.4");
 
     // 2. login
     if (!screen.login(user, pwd)) {
@@ -77,7 +77,7 @@ There are two http drivers: __Apache HttpComponents__ and __OkHttp__. Default dr
 ### Simple Operations
 ```java
 // 1
-Y2Screen screen = new Y2Screen(ip4);
+Y2Screen screen = new Y2Screen("http://1.2.3.4");
 
 // 2
 if (!screen.login("guest", "guest")) {
@@ -98,7 +98,7 @@ screen.logout();
 ### Play a marquee
 ```java
 // 1
-Y2Screen screen = new Y2Screen(ip4);
+Y2Screen screen = new Y2Screen("http://1.2.3.4");
 
 // 2
 if (!screen.login("guest", "guest")) {
@@ -228,11 +228,11 @@ The bulletin area displays some important text based messages immediately.
 ```java
 Y2BulletinManager bulletin = screen.bulletin();
 
-BulletinArea area1 = new BulletinArea(0, 0, 100, 40);
+BulletinArea area1 = new BulletinArea(1, "bullet_01", 0, 0, 100, 40);
 area1.bgColor(Color.darkGry)
      .fgColor(Color.red)
      .content("News: We are happy to announce to release this API.")
-BulletinArea area2 = new BulletinArea(0, 0, 100, 40);
+BulletinArea area2 = new BulletinArea(2, "bullet_02", 0, 100, 100, 40);
 area2.bgColor(Color.darkGry)
      .fgColor(Color.green)
      .content("News: Java Doc is available too.")
@@ -247,12 +247,14 @@ bulletin.play();
 ### Dynamic Area
 The dynamic area displays some messages without any time configuration, and be deleted automatically after rebooting the hardware.
 ```java
+Y2DynamicManager dyn = screen.dynamic();
+
 DynamicPlayFile file = new DynamicPlayFile();
 
 DynamicArea area = file.create(0, 0, 100, 40);
 area.addText("Welcome to ONBON");
 area.addText("We are happy to announce to release this API")
 
-screen.writeDynamic(file);
+dyn.write(file);
 
 ```

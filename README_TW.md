@@ -21,7 +21,7 @@
 2. 連上特定的屏幕並執行一些命令。
     ```java
     // 1. 建立一個新的屏幕
-    Y2Screen screen = new Y2Screen(ip4);
+    Y2Screen screen = new Y2Screen("http://1.2.3.4");
 
     // 2. 登入
     if (!screen.login(user, pwd)) {
@@ -41,7 +41,7 @@
 ### 簡單的操作
 ```java
 // 1
-Y2Screen screen = new Y2Screen(ip4);
+Y2Screen screen = new Y2Screen("http://1.2.3.4");
 
 // 2
 if (!screen.login("guest", "guest")) {
@@ -62,7 +62,7 @@ screen.logout();
 ### 撥放一個跑馬燈
 ```java
 // 1
-Y2Screen screen = new Y2Screen(ip4);
+Y2Screen screen = new Y2Screen("http://1.2.3.4");
 
 // 2
 if (!screen.login("guest", "guest")) {
@@ -192,11 +192,11 @@ area.addUnits(DateTimePattern.MONTH);
 ```java
 Y2BulletinManager bulletin = screen.bulletin();
 
-BulletinArea area1 = new BulletinArea(0, 0, 100, 40);
+BulletinArea area1 = new BulletinArea(1, "公告一", 0, 0, 100, 40);
 area1.bgColor(Color.darkGry)
      .fgColor(Color.red)
      .content("News: We are happy to announce to release this API.")
-BulletinArea area2 = new BulletinArea(0, 0, 100, 40);
+BulletinArea area2 = new BulletinArea(2, "公告二", 0, 0, 100, 40);
 area2.bgColor(Color.darkGry)
      .fgColor(Color.green)
      .content("News: Java Doc is available too.")
@@ -211,12 +211,14 @@ bulletin.play();
 ### 動態分區 Dynamic Area
 動態分區可於即刻顯示訊息，無須時間設置，所有訊息於重開機之後自動被刪除。
 ```java
+Y2DynamicManager dyn = screen.dynamic();
+
 DynamicPlayFile file = new DynamicPlayFile();
 
 DynamicArea area = file.create(0, 0, 100, 40);
 area.addText("Welcome to ONBON");
 area.addText("We are happy to announce to release this API")
 
-screen.writeDynamic(file);
+dyn.write(file);
 
 ```
