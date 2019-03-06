@@ -2,6 +2,7 @@ Onbon Y2 Java Library (preview version)
 ===
 * [API Document](https://api2doc.github.io/onbon.y2.api/)
 * [中文範例](README_TW.md)
+* [中文范例](README_CN.md)
 
 ## Introduction
 
