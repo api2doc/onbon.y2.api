@@ -96,53 +96,68 @@ screen.logout();
 ```
 
 ## 範例 - 播放清單與節目
-###
-播放清單是節目播放的基礎，由一個以上的節目組合而成。
+### 播放清單 Playlist
+播放清單用於播放節目，由一個以上的節目組合而成。
+#### 一般播放
 ```java
 ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
-ProgramPlayFile file1 = new ProgramPlayFile(2) // program_2
+ProgramPlayFile file2 = new ProgramPlayFile(2) // program_2
 String playlist = screen.writePlaylist(file1, file2, ...);
+
 screen.play(playlist);
+
+screen.checkPlayer()    // 檢查目前播放狀態
+```
+#### 插播
+```java
+ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
+ProgramPlayFile file2 = new ProgramPlayFile(2) // program_2
+String playlist = screen.writePlaylist(file1, file2, ...);
+
+screen.playInstContent(playlist);
+
+screen.checkPlayer()    // 檢查目前播放狀態
 ```
 
 ### 節目 Program
-節目用來定義屏幕上要顯示的內容，內容透過區域進行管理。一個節目內可以有一個以上的區域，每個區域有各自的顯示位置與大小。
+節目用來規劃屏幕上要顯示的內容，內容透過區域進行管理。一個節目由一個以上的區域組合而成，每個區域有各自的顯示位置與大小。
 ```java
-ProgramPlayFile file = new ProgramPlayFile(3) // program_3
-file.getAreas().add(marqueeArea);
-file.getAreas().add(dateArea);
+ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
+file1.getAreas().add(area1);
+file1.getAreas().add(area2);
 ```
-每個節目可以有各自播放方式，如時間、重複方式、等級等。
 #### 每天播放
 ```java
-file.getPlayWeek().all();           
+file1.getPlayWeek().all();           
 ```
 
 #### 以計次方式播放，重複 3 次後切換到下一個節目
 ```java
-file.setPlayMode(PlayMode.COUNTER)  
-file.setPlayCount(3);
+file1.setPlayMode(PlayMode.COUNTER)  
+file1.setPlayCount(3);
 ```
 #### 以計時方式播放，播放 45 秒後切換到下一個節目
 ```java
-file.setPlayMode(PlayMode.TIMER)  
-file.setPlayTime(45);
+file2.setPlayMode(PlayMode.TIMER)  
+file2.setPlayTime(45);
 ```
 
 ## 範例 - 區域
-區域用來控制顯示內容，可顯示的內容包括：
-* 跑馬燈
-* 一般圖文
-* 具備遮罩效果的圖文
-* 時間
-* 時鐘
-* 計數器
-* 視頻
+區域用來控制顯示內容，內容包括：
+* 跑馬燈 (Marquee)
+* 一般圖文 (Text)
+* 具備遮罩效果的圖文 (Textualize)
+* 時間 (DatTime)
+* 時鐘 (Clock)
+* 計數器 (Counter)
+* 視頻 (Video)
+* 農曆 (ChiCalendar)
+* 動態效果 (Animation)
 
-區域皆具備邊框顯示功能，可以需要啟用或取消。
+以上區域皆具備邊框功能，預設關閉。
 
 ### 邊框效果 Border Style
-啟用邊框後，內容的有效可視範圍會依據邊框寬度縮小。取消邊框後，內容的有效可視範圍恢復到原設定大小。
+邊框為一為圍繞在區域周圍的矩形，啟用後，內容的有效可視範圍會依據邊框寬度縮小。
 ```java
 // 啟用邊框
 AreaBorderStyle style = area.enableBorder(3);
@@ -152,7 +167,6 @@ style.animation(52, 8)  // 特效 52, 速度 8
 // 取消邊框
 area.disableBorder();   
 ```
-
 
 ### 跑馬燈分區 Marquee Area
 跑馬燈分區是一個單行文字的分區，將內容以水平移動的方式顯示在屏幕上。
@@ -181,11 +195,11 @@ area.addContent("We are happy to announce that Y2 Java library has released.")
 
 ```
 
-### 文字分區 Text Area
-文字分區是一個以文字內容文主的分區，根據設置自動換行、分段顯示在屏幕上。
+### 一般圖文分區 Text Area
+文字分區是一個以文字內容文主的分區，以節的方式添加，節與節之間會自動分頁。
 ```java
 TextArea area = new TextArea(0, 0, 128, 64);
-area.stuntType(10);
+area.stuntType(10);         // 特效
 
 // section1
 area.addTextSection("Hello everyone.")
@@ -216,30 +230,52 @@ area.addTextSection("We are happy to announce that Y2 Java library has released.
 
 ```
 
+### 具備遮罩效果的圖文 Textualize Area
+與一般圖文類似，主要差異為文字顏色用素材取代，背景為透明。
+```java
+TextualizeArea area = new TextualizeArea(0, 0, 128, 64);
+area.addMaterial("sample/textualize_bg.jpg");
+
+TextualizeAreaTextMask page = area.addTextSection("Welcome to ONBON");
+page.animationSpeed(4)
+    .horizontalAlignment(AlignmentType.NEAR)
+    .verticalAlignment(AlignmentType.NEAR);
+    .getFont()
+        .size(40)
+        .bold();
+```
+素材
+
+![TextualizeArea](images/textualize_bg.jpg)
+
+文字渲染結果
+
+![TextualizeArea](images/textualize_result.png)
+
 ### 日期時間分區 DateTime Area
-日期時間分區根據設定將日期、時間、星期組合顯示在屏幕上。若沒有設定寬與高，日期時間分區會根據內容自動調分區大小顯示完整的內容。
+日期時間分區將選擇的日期、時間、星期樣式組合並顯示在屏幕上。若沒有設定寬與高，日期時間分區會根據內容自動調分區大小顯示完整的內容。
 ```java
 DateTimeArea area;
 
-// x, y, width, height (fixed size)
+// 固定位置與大小
 area = new DateTimeArea(100, 40, 200, 60);
-// x, y only (autosize)
+// 固定位置，大小自動調整
 area = new DateTimeArea(100, 40);
 
 area.bgColor(Color.darkGray)
     .horizontalAlignment(AlignmentType.CENTER);
 
-// 第二行顯示：時間與日期，格式為 AM 8:16 2019-02-15
+// 第一行：顯示時間與日期，格式為 AM 8:16 2019-02-15
 area.addUnits(DateTimePattern.AMPM_H_MM, DateTimePattern.YYYY_MM_DD1)
     .fgColor(Color.yellow);
     .getFont()
         .bold()
         .underline();
 
-// 第二行顯示：星期
+// 第二行：顯示星期
 area.addUnits(DateTimePattern.WEEK);
 
-// 第三行顯示: 月份
+// 第三行：顯示月份
 area.addUnits(DateTimePattern.MONTH);
     .getFont()
         .bold();
@@ -248,25 +284,32 @@ area.addUnits(DateTimePattern.MONTH);
 ## 範例 - 公告分區 Bulletin Area
 公告分區用於即刻顯示一些重要的文字訊息。
 ```java
+// 取得管理程式
 Y2BulletinManager bulletin = screen.bulletin();
 
+// 建立公告一
 BulletinArea area1 = new BulletinArea(1, "公告一", 0, 0, 200, 40);
 area1.bgColor(Color.darkGry)
      .fgColor(Color.red)
      .content("News: We are happy to announce to release this API.")
+
+// 建立公告二
 BulletinArea area2 = new BulletinArea(2, "公告二", 0, 80, 200, 40);
 area2.bgColor(Color.darkGry)
      .fgColor(Color.green)
      .content("News: Java Doc is available too.")
 
-// write to Y2
+// 將公告一、公告二上傳
 bulletin.write(area1);
 bulletin.write(area2);
-// play
+
+// 播放
 bulletin.play();
-// delete
+
+// 刪除公告二
 bulletin.delete(2);
-// stop
+
+// 停播
 bulletin.stop();
 
 ```
@@ -274,14 +317,17 @@ bulletin.stop();
 ## 範例 - 動態分區 Dynamic Area
 動態分區可於即刻顯示訊息，無須時間設置，所有訊息於重開機之後自動被刪除。
 ```java
+// 取得管理程式
 Y2DynamicManager dyn = screen.dynamic();
 
+// 建立動態節目
 DynamicPlayFile file = new DynamicPlayFile();
 
+// 於節目中新增一個動態區
 DynamicArea area = file.create(0, 0, 100, 40);
 area.addText("Welcome to ONBON");
 area.addText("We are happy to announce to release this API")
 
+// 將動態節目上傳
 dyn.write(file);
-
 ```

@@ -8,8 +8,10 @@ Onbon Y2 Java Library (preview version)
 The Onbon Y2 Java library provides an API for operating full-color board of Y2 Series.
 
 Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
-## Jar Files
+## Libraries
+### Jar Files
 * __y2__ - Y2 core API
+  * commons-codec
 * __y2-message__ - Y2 messages
 * __y2-Http__ - Y2 http interface
 * __y2-http-hc__ - Y2 http implementation
@@ -20,15 +22,17 @@ Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
       * commons-codec
 * __y2-http-ok__ - Y2 http implementation
   * okhttp
+    * okio
 * __uia-utils__ - Common utilities
 * __simple-xml__ - XML parser
   * stax-api
   * stax
   * xpp3
-## Android only
+
+### Android only
 * j2a - Java wrapper.
 
-## Http Driver
+## Http Drivers
 There are two http drivers: __Apache HttpComponents__ and __OkHttp__. Default driver Y2 API uses is Apache HttpComponents.
 * __Apache HttpComponents__
 
@@ -131,23 +135,77 @@ screen.play(listId);
 screen.logout();
 ```
 
-## Tutorial - Playlist, Program and Area
+## Tutorial - Playlist, Program
 ### Playlist
+The playlist is used to play programs and is composed of more than one program.
+#### General
 ```java
 ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
-file1.getPlayWeek().all();
-file1.setPlayInTurn(5);
-file1.setPriority(1);
+ProgramPlayFile file2 = new ProgramPlayFile(2) // program_2
+String playlist = screen.writePlaylist(file1, file2, ...);
 
-String playlist = screen.writePlaylist(file1, ...);
 screen.play(playlist);
+
+screen.checkPlayer()    // Check current playing information
+```
+#### Instant Content
+```java
+ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
+ProgramPlayFile file2 = new ProgramPlayFile(2) // program_2
+String playlist = screen.writePlaylist(file1, file2, ...);
+
+screen.playInstContent(playlist);
+
+screen.checkPlayer()    // Check current playing information
 ```
 
 ### Program
+The program is used to plan the content to be displayed on the screen, and the content is managed through the area. A program is composed of more than one area, each has its own display position and size.
 ```java
-ProgramPlayFile file = new ProgramPlayFile(2) // program_2
-file.getAreas().add(marqueeArea);
-file.getAreas().add(dateArea);
+ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
+file1.getAreas().add(area1);
+file1.getAreas().add(area2);
+```
+#### Play everyday
+```java
+file1.getPlayWeek().all();           
+```
+
+#### Play in count mode, repeat 3 times and switch to the next program.
+```java
+file1.setPlayMode(PlayMode.COUNTER)  
+file1.setPlayCount(3);
+```
+#### Play in time mode, switch to the next program after 45 seconds.
+```java
+file2.setPlayMode(PlayMode.TIMER)  
+file2.setPlayTime(45);
+```
+
+## Tutorial - Area
+The area is used to manage content, including:
+* Marquee
+* Text
+* Textualize
+* DatTime
+* Clock
+* Counter
+* Video
+* ChiCalendar
+* Animation
+
+All above support border style.
+
+### Border Style
+The border is a rectangle around the area. The visible range of the content will be reduced according to the width of the border after enabling border style.
+```java
+// Enable
+AreaBorderStyle style = area.enableBorder(3);
+style.animation(52, 8)  // animation:52, speed:8
+     .blinkGrade(8);    // blink:8
+
+// Disable
+area.disableBorder();   
 ```
 
 ### Marquee Area
@@ -211,73 +269,104 @@ area.addTextSection("We are happy to announce that Y2 Java library has released.
         .size(20);
 
 ```
+### Textualize Area
+Similar to the __Text Area__, the main difference is that the text color is replaced by the material, and the background is transparent.
+```java
+TextualizeArea area = new TextualizeArea(0, 0, 128, 64);
+area.addMaterial("sample/textualize_bg.jpg");
+
+TextualizeAreaTextMask page = area.addTextSection("Welcome to ONBON");
+page.animationSpeed(4)
+    .horizontalAlignment(AlignmentType.NEAR)
+    .verticalAlignment(AlignmentType.NEAR);
+    .getFont()
+        .size(40)
+        .bold();
+```
+Material
+
+![TextualizeArea](images/textualize_bg.jpg)
+
+Text Rendered Result
+
+![TextualizeArea](images/textualize_result.png)
 
 ### DateTime Area
 The DateTimeArea displays date and time with specific patterns. The DateTimeArea can be resized automatically according to content without values of the size.
 ```java
 DateTimeArea area;
 
-// x, y, width, height (fixed size)
+// fixed location and size
 area = new DateTimeArea(100, 40, 200, 60);
-// x, y only (autosize)
+// fixed location, auto size
 area = new DateTimeArea(100, 40);
 
 area.bgColor(Color.darkGray)
     .horizontalAlignment(AlignmentType.CENTER);
 
-// line1: AM 8:16 2019-02-15
+// line1: display date and time, format is AM 8:16 2019-02-15
 area.addUnits(DateTimePattern.AMPM_H_MM, DateTimePattern.YYYY_MM_DD1)
     .fgColor(Color.yellow);
     .getFont()
         .bold()
         .underline();
 
-// line2: Friday
+// line2: display week
 area.addUnits(DateTimePattern.WEEK);
 
-// line3: February
+// line3: display month
 area.addUnits(DateTimePattern.MONTH);
     .getFont()
         .bold();
 ```
 
 ## Bulletin Area
-The bulletin area displays some important text based messages immediately.
+The bulletin area displays text based content on the screen immediately.
 ```java
+// get the bulletin manager
 Y2BulletinManager bulletin = screen.bulletin();
 
+// bulletin 1
 BulletinArea area1 = new BulletinArea(1, "bullet_01", 0, 0, 100, 40);
 area1.bgColor(Color.darkGry)
      .fgColor(Color.red)
      .content("News: We are happy to announce to release this API.")
+
+// bulletin 2
 BulletinArea area2 = new BulletinArea(2, "bullet_02", 0, 100, 100, 40);
 area2.bgColor(Color.darkGry)
      .fgColor(Color.green)
      .content("News: Java Doc is available too.")
 
-// write to Y2
+// upload to Y2
 bulletin.write(area1);
 bulletin.write(area2);
+
 // play
 bulletin.play();
-// delete
+
+// delete bulletin 2
 bulletin.delete(2);
+
 // stop
 bulletin.stop();
 
 ```
 
 ## Dynamic Area
-The dynamic area displays some messages without any time configuration, and be deleted automatically after rebooting the hardware.
+The dynamic area displays content without any time configuration, and be deleted automatically after rebooting the hardware.
 ```java
+// get the dynamic manager
 Y2DynamicManager dyn = screen.dynamic();
 
+// dynamic program
 DynamicPlayFile file = new DynamicPlayFile();
 
+// dynamic area
 DynamicArea area = file.create(0, 0, 100, 40);
 area.addText("Welcome to ONBON");
 area.addText("We are happy to announce to release this API")
 
+// upload to Y2
 dyn.write(file);
-
 ```
