@@ -95,26 +95,64 @@ screen.play(listId);
 screen.logout();
 ```
 
-## 範例 - 播放清單、節目與分區
-### 播放清單 Playlist
-播放清單是節目播放的基礎，一個播放清單內可以有一個以上的節目，每個節目可以有各自的設定如播放時間、輪播次數、等級等。
+## 範例 - 播放清單與節目
+###
+播放清單是節目播放的基礎，由一個以上的節目組合而成。
 ```java
 ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
-file1.getPlayWeek().all();
-file1.setPlayInTurn(5);
-file1.setPriority(1);
-
-String playlist = screen.writePlaylist(file1, ...);
+ProgramPlayFile file1 = new ProgramPlayFile(2) // program_2
+String playlist = screen.writePlaylist(file1, file2, ...);
 screen.play(playlist);
 ```
 
 ### 節目 Program
-節目用來定義屏幕上要顯示那些內容，內容透過區域進行管理。一個節目內可以有一個以上的區域，每個區域有各自的顯示位置與大小。
+節目用來定義屏幕上要顯示的內容，內容透過區域進行管理。一個節目內可以有一個以上的區域，每個區域有各自的顯示位置與大小。
 ```java
-ProgramPlayFile file = new ProgramPlayFile(2) // program_2
+ProgramPlayFile file = new ProgramPlayFile(3) // program_3
 file.getAreas().add(marqueeArea);
 file.getAreas().add(dateArea);
 ```
+每個節目可以有各自播放方式，如時間、重複方式、等級等。
+#### 每天播放
+```java
+file.getPlayWeek().all();           
+```
+
+#### 以計次方式播放，重複 3 次後切換到下一個節目
+```java
+file.setPlayMode(PlayMode.COUNTER)  
+file.setPlayCount(3);
+```
+#### 以計時方式播放，播放 45 秒後切換到下一個節目
+```java
+file.setPlayMode(PlayMode.TIMER)  
+file.setPlayTime(45);
+```
+
+## 範例 - 區域
+區域用來控制顯示內容，可顯示的內容包括：
+* 跑馬燈
+* 一般圖文
+* 具備遮罩效果的圖文
+* 時間
+* 時鐘
+* 計數器
+* 視頻
+
+區域皆具備邊框顯示功能，可以需要啟用或取消。
+
+### 邊框效果 Border Style
+啟用邊框後，內容的有效可視範圍會依據邊框寬度縮小。取消邊框後，內容的有效可視範圍恢復到原設定大小。
+```java
+// 啟用邊框
+AreaBorderStyle style = area.enableBorder(3);
+style.animation(52, 8)  // 特效 52, 速度 8
+     .blinkGrade(8);    // 閃爍 8
+
+// 取消邊框
+area.disableBorder();   
+```
+
 
 ### 跑馬燈分區 Marquee Area
 跑馬燈分區是一個單行文字的分區，將內容以水平移動的方式顯示在屏幕上。
@@ -124,22 +162,22 @@ area.right2Left(true);
 
 // page1
 area.addContent("Hello everyone.")
-    .fgColor(Color.white)
-    .bgColor(Color.black)
-    .animationSpeed(16)
+    .fgColor(Color.white)   // 前景色
+    .bgColor(Color.black)   // 背景色
+    .animationSpeed(16)     // 特效播放速度
     .getFont()
-        .size(24)
-        .bold()
-        .strikethrough()
-        .underline();
+        .size(24)           // 字體大小
+        .bold()             // 粗體
+        .strikethrough()    // 刪除線
+        .underline();       // 底線
 
 // page2
 area.addContent("We are happy to announce that Y2 Java library has released.")
-    .fgColor(Color.black)
-    .bgColor(Color.white)
-    .animationSpeed(1)
+    .fgColor(Color.black)   // 前景色
+    .bgColor(Color.white)   // 背景色
+    .animationSpeed(1)      // 特效播放速度
     .getFont()
-        .size(20);
+        .size(20);          // 字體大小
 
 ```
 
@@ -151,28 +189,28 @@ area.stuntType(10);
 
 // section1
 area.addTextSection("Hello everyone.")
-    .fgColor(Color.white)
-    .bgColor(Color.black)
-    .stayTime(8)
-    .animationSpeed(16)
-    .horizontalAlignment(AlignmentType.CENTER)
-    .verticalAlignment(AlignmentType.CENTER)
-    .rowHeight(30)
+    .fgColor(Color.white)   // 前景色
+    .bgColor(Color.black)   // 背景色
+    .stayTime(8)            // 單頁停留時間
+    .animationSpeed(16)     // 特效播放速度
+    .horizontalAlignment(AlignmentType.CENTER)  // 水平對齊，置中
+    .verticalAlignment(AlignmentType.CENTER)    // 垂直對齊，置中
+    .rowHeight(30)          // 行高
     .getFont()
         .size(24)
-        .bold()
+        .bold()             
         .strikethrough()
         .underline();
 
 // section2
 area.addTextSection("We are happy to announce that Y2 Java library has released.")
-    .fgColor(Color.black)
-    .bgColor(Color.white)
-    .stayTime(9)
-    .animationSpeed(1)
-    .horizontalAlignment(AlignmentType.NEAR)
-    .verticalAlignment(AlignmentType.FAR)
-    .rowHeight(20)
+    .fgColor(Color.black)   // 前景色
+    .bgColor(Color.white)   // 背景色
+    .stayTime(9)            // 單頁停留時間
+    .animationSpeed(1)      // 特效播放速度
+    .horizontalAlignment(AlignmentType.NEAR)    // 水平對齊，靠左
+    .verticalAlignment(AlignmentType.FAR)       // 水平對齊，靠下
+    .rowHeight(20)          // 行高
     .getFont()
         .size(20);
 
@@ -191,17 +229,17 @@ area = new DateTimeArea(100, 40);
 area.bgColor(Color.darkGray)
     .horizontalAlignment(AlignmentType.CENTER);
 
-// line1: AM 8:16 2019-02-15
+// 第二行顯示：時間與日期，格式為 AM 8:16 2019-02-15
 area.addUnits(DateTimePattern.AMPM_H_MM, DateTimePattern.YYYY_MM_DD1)
     .fgColor(Color.yellow);
     .getFont()
         .bold()
         .underline();
 
-// line2: Friday
+// 第二行顯示：星期
 area.addUnits(DateTimePattern.WEEK);
 
-// line3: February
+// 第三行顯示: 月份
 area.addUnits(DateTimePattern.MONTH);
     .getFont()
         .bold();
