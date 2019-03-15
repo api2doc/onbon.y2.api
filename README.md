@@ -34,7 +34,7 @@ Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
 * j2a - Java wrapper.
 
 ## Http Drivers
-There are two http drivers: __Apache HttpComponents__ and __OkHttp__. Default driver Y2 API uses is Apache HttpComponents.
+There are two http drivers: __Apache HttpComponents__ and __OkHttp__. The default driver Y2 API uses is Apache HttpComponents.
 * __Apache HttpComponents__
 
   The driver runs on __Java 6+__. _Not support Andorid_.
@@ -52,11 +52,14 @@ There are two http drivers: __Apache HttpComponents__ and __OkHttp__. Default dr
     // with log4j
     Y2Env.initial(pathToLog4j);
 
-    // android
+    // android or JDK 8
     Y2Env.initial(true);
 
-    // with log4j and JDK 8
+    // with log4j and android or JDK 8
     Y2Env.initial(pathToLog4j, true);
+
+    // set default font properties
+    Y2Font.defaultFont("SimSun", 20, Y2FontSizeType.PIXEL);
     ```
 
 2. Connect to a specific screen and run some commands.
@@ -161,7 +164,7 @@ screen.checkPlayer()    // Check current playing information
 ```
 
 ### Program
-The program is used to plan the content to be displayed on the screen, and the content is managed through the area. A program is composed of more than one area, each has its own display position and size.
+The program is used to plan contents to be displayed on the screen, each content is managed through an area. A program is composed of more than one area, each has its own display position and size.
 ```java
 ProgramPlayFile file1 = new ProgramPlayFile(1) // program_1
 file1.getAreas().add(area1);
@@ -172,19 +175,19 @@ file1.getAreas().add(area2);
 file1.getPlayWeek().all();           
 ```
 
-#### Play in count mode, repeat 3 times and switch to the next program.
+#### Play in count mode, repeat 3 times then switch to the next program.
 ```java
 file1.setPlayMode(PlayMode.COUNTER)  
 file1.setPlayCount(3);
 ```
-#### Play in time mode, switch to the next program after 45 seconds.
+#### Play in time mode, play 45 seconds then switch to the next program.
 ```java
 file2.setPlayMode(PlayMode.TIMER)  
 file2.setPlayTime(45);
 ```
 
 ## Tutorial - Area
-The area is used to manage content, including:
+The area is used to manage the content, including:
 * Marquee
 * Text
 * Textualize
@@ -198,7 +201,7 @@ The area is used to manage content, including:
 All above support border style.
 
 ### Border Style
-The border is a rectangle around the area. The visible range of the content will be reduced according to the width of the border after enabling border style.
+The border is a rectangle around the area. After enabling border style, the size fo the content will be reduced according to the width of the border.
 ```java
 // Enable
 AreaBorderStyle style = area.enableBorder(3);
@@ -293,7 +296,7 @@ Text Rendered Result
 ![TextualizeArea](images/textualize_result.png)
 
 ### DateTime Area
-The DateTimeArea displays date and time with specific patterns. The DateTimeArea can be resized automatically according to content without values of the size.
+The DateTimeArea displays date and time depending on specific patterns. The DateTimeArea will be resized automatically without width and height.
 ```java
 DateTimeArea area;
 
