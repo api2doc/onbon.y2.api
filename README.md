@@ -44,7 +44,7 @@ You can use Eclipse IDE to import Y2 jar files into local m2 repository
 2. Select `Install or deploy an atrifact to a Maven repository` under Maven.
 ![deploy an artifact](images/maven_import2.png)
 
-3. Select an artifact file. If everying is corret, POM file will be filled automatically. Group id, Artifact Id, Version, Packing will be filled automatically too.
+3. Select an artifact file, information of POM file, Group Id, Artifact Id, Version, Packaging will be filled automatically.
 ![select jar and pom](images/maven_import3.png)
 
 4. Click `Finish` to install selected artifact to the local repository.
