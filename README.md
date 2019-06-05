@@ -31,8 +31,34 @@ Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
   * stax
   * xpp3
 
-### Maven
-To use the the libaray you’ll need to add the following dependency and repository.
+### Android only
+* j2a - Java wrapper.
+
+## Maven Conifguration
+### Local Maven repository
+You can use Eclipse IDE to import Y2 jar files into local m2 repository
+
+1. Start `import...` to launch setup dialog.
+![start to import](images/maven_import1.png)
+
+2. Select `Install or deploy an atrifact to a Maven repository` under Maven.
+![deploy an artifact](images/maven_import2.png)
+
+3. Select an artifact file. If everying is corret, POM file will be filled automatically. Group id, Artifact Id, Version, Packing will be filled automatically too.
+![select jar and pom](images/maven_import3.png)
+
+4. Click `Finish` to install selected artifact to the local repository.
+
+The import order of jar files are:
+* y2-message
+* y2-http
+* y2-http-hc
+* y2-http-ok
+* y2
+
+### POM.xml
+After importing Y2 library, you can add the following dependencies and repositories.
+
 ```xml
 <dependencies>
     <dependency>
@@ -52,19 +78,16 @@ To use the the libaray you’ll need to add the following dependency and reposit
     </dependency>
 </dependencies>
 <repositories>
-	<repository>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-		<id>central</id>
-		<name>bintray</name>
-		<url>http://jcenter.bintray.com</url>
-	</repository>
+    <repository>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <id>central</id>
+        <name>bintray</name>
+        <url>http://jcenter.bintray.com</url>
+    </repository>
 </repositories>
 ```
-
-### Android only
-* j2a - Java wrapper.
 
 ## Http Drivers
 There are two http drivers: __Apache HttpComponents__ and __OkHttp__. The default driver Y2 API uses is Apache HttpComponents.
