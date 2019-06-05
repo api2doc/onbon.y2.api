@@ -13,6 +13,7 @@ Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
 ### Jar Files
 * __y2__ - Y2 core API
   * commons-codec
+  * uia-utils
 * __y2-message__ - Y2 messages
 * __y2-Http__ - Y2 http interface
 * __y2-http-hc__ - Y2 http implementation
@@ -29,6 +30,38 @@ Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
   * stax-api
   * stax
   * xpp3
+
+### Maven
+To use the the libaray you’ll need to add the following dependency and repository.
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.onbon.y2</groupId>
+        <artifactId>y2</artifactId>
+        <version>0.2.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.onbon.y2</groupId>
+    	<artifactId>y2-http-hc</artifactId>
+    	<version>0.2.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.onbon.y2</groupId>
+    	<artifactId>y2-http-ok</artifactId>
+    	<version>0.2.0-SNAPSHOT</version>
+    </dependency>
+</dependencies>
+<repositories>
+	<repository>
+		<snapshots>
+			<enabled>false</enabled>
+		</snapshots>
+		<id>central</id>
+		<name>bintray</name>
+		<url>http://jcenter.bintray.com</url>
+	</repository>
+</repositories>
+```
 
 ### Android only
 * j2a - Java wrapper.
