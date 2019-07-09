@@ -25,6 +25,7 @@ Y2 Java library supports Android 5.0+ (API level 21+) and Java 6+.
 * __y2-http-ok__ - Y2 http implementation
   * okhttp
     * okio
+* __uia-comm__ - TCP/UDP tool
 * __uia-utils__ - Common utilities
 * __simple-xml__ - XML parser
   * stax-api
@@ -136,6 +137,29 @@ There are two http drivers: __Apache HttpComponents__ and __OkHttp__. The defaul
     // 4. logout
     screen.logout();
     ```
+3. Broadcast a request to the controllers of the same network
+    ```java
+    // 1. initial a service
+    Y2ScreenFactory factory = new Y2ScreenFactory("192.168.1.1");
+
+    // 2. register a listen to handle responses.
+    factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
+
+		@Override
+		public void run(String pid, String barcode, SearchControllerOutput output) {
+			System.out.println(pid);
+			System.out.println(barcode);
+			System.out.println(output.getIp());
+		}
+	});
+
+    // 3. start
+    factory.start();
+
+    // 4. execute
+    factory.searchControllers();
+    ```
+
 
 ## Toturial
 ### Simple Operations
@@ -429,4 +453,63 @@ area.addText("We are happy to announce to release this API")
 
 // upload to Y2
 dyn.write(file);
+```
+
+## Tutorial - Broadcast Service
+Broadcast commands to all controllers of the same network.
+1. Choose a network to initial this service.
+
+
+2. Setup response Handlers just once
+    * listenSearchControllers
+    * listenUpdateNetworkOption
+    * listenRestartNetwork
+    * listenConnectWifi
+    * listenQueryWifiStatus
+    * listenDisconnectWifi
+    * listenApProperty
+
+
+3. Start the service
+    * response port
+
+
+4. Execute some commnads
+    * searchControllers
+    * updateNetworkOption
+    * restartNetwork
+    * connectWifi
+    * queryWifiStatus
+    * disconnectWifi
+    * modifyApProperty
+
+
+5. Stop the service
+
+```java
+// 1
+String lan = "192.168.1.10";
+Y2ScreenFactory factory = new Y2ScreenFactory(lan);
+// 2.1
+factory.listenSearchController(new ResponseHandler<SearchControllerOutput>() {
+
+	@Override
+	public void run(String pid, String barcode, SearchControllerOutput output) {
+        // TODO:
+	}
+});
+// 2.2
+factory.listenQueryWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
+
+	@Override
+	public void run(String pid, String barcode, QueryWifiStatusOutput output) {
+        // TODO:
+	}
+});
+// 3
+factory.start(10003);
+// 4.1
+factory.searchControllers();
+// 4.2
+factory.queryWifiStatus();
 ```

@@ -2,7 +2,11 @@
 ===
 
 ## 一般图文分区 Text Area 专用
-|No|Description|
+```java
+TextArea area = new TextArea();
+area.animationType(52);
+```
+|編號|說明|
 |---|---|
 |0|快速打出|
 |50|平滑向上推入|
@@ -15,7 +19,7 @@
 |57|平滑向左移入|
 
 ## 通用特效 Common Animation
-|No|Description|
+|編號|說明|
 |---|---|
 |0|快速打出|
 |1|随机特技|

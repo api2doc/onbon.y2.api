@@ -331,3 +331,63 @@ area.addText("We are happy to announce to release this API")
 // 將動態節目上傳
 dyn.write(file);
 ```
+
+## 範例 - 廣播服務
+將命令廣播給同一網路上所有的控制器。
+1. 在特定的網路上初始化服務
+
+
+2. 設定回覆處理介面(只需一次)：
+    * listenSearchControllers
+    * listenUpdateNetworkOption
+    * listenRestartNetwork
+    * listenConnectWifi
+    * listenQueryWifiStatus
+    * listenDisconnectWifi
+    * listenApProperty
+
+
+3. 啟動
+    * 回覆的通訊埠(不可為 10001、10002)
+
+
+
+4. 執行一些命令：
+    * searchControllers
+    * updateNetworkOption
+    * restartNetwork
+    * connectWifi
+    * queryWifiStatus
+    * disconnectWifi
+    * modifyApProperty
+
+
+5. 結束
+
+```java
+// 1
+String lan = "192.168.1.10";
+Y2ScreenFactory factory = new Y2ScreenFactory(lan);
+// 2.1
+factory.listenSearchController(new ResponseHandler<SearchControllerOutput>() {
+
+	@Override
+	public void run(String pid, String barcode, SearchControllerOutput output) {
+        // TODO:
+	}
+});
+// 2.2
+factory.listenQueryWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
+
+	@Override
+	public void run(String pid, String barcode, QueryWifiStatusOutput output) {
+        // TODO:
+	}
+});
+// 3
+factory.start(10003);
+// 4.1
+factory.searchControllers();
+// 4.2
+factory.queryWifiStatus();
+```

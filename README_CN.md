@@ -1,7 +1,6 @@
 仰邦 Y2 Java 函式库 (预览版)
 ===
 * [API Document](https://api2doc.github.io/onbon.y2.api/)
-
 ## 如何使用
 1. 初始化 Y2 API 环境。仅需一次。
     ```java
