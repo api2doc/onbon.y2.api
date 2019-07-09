@@ -456,7 +456,7 @@ dyn.write(file);
 ```
 
 ## Tutorial - Broadcast Service
-Broadcast commands to all controllers of the same network.
+Broadcast commands to all controllers on the same network.
 1. Choose a network to initial this service.
 
 
@@ -491,11 +491,13 @@ Broadcast commands to all controllers of the same network.
 String lan = "192.168.1.10";
 Y2ScreenFactory factory = new Y2ScreenFactory(lan);
 // 2.1
-factory.listenSearchController(new ResponseHandler<SearchControllerOutput>() {
+factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
 
 	@Override
 	public void run(String pid, String barcode, SearchControllerOutput output) {
-        // TODO:
+		System.out.println(pid);
+		System.out.println(barcode);
+		System.out.println(output.getIp());
 	}
 });
 // 2.2
@@ -503,7 +505,7 @@ factory.listenQueryWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
 
 	@Override
 	public void run(String pid, String barcode, QueryWifiStatusOutput output) {
-        // TODO:
+		System.out.println(pid +", " + output.getWifiStatus());
 	}
 });
 // 3

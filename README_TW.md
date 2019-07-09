@@ -36,6 +36,28 @@
     // 4. 登出
     screen.logout();
     ```
+3. 將命令廣播給同一網路上所有的控制器。
+    ```java
+    // 1. initial a service
+    Y2ScreenFactory factory = new Y2ScreenFactory("192.168.1.1");
+
+    // 2. register a listen to handle responses.
+    factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
+
+		@Override
+		public void run(String pid, String barcode, SearchControllerOutput output) {
+			System.out.println(pid);
+			System.out.println(barcode);
+			System.out.println(output.getIp());
+		}
+	});
+
+    // 3. start
+    factory.start();
+
+    // 4. execute
+    factory.searchControllers();
+    ```
 
 ## 範例
 ### 簡單的操作
@@ -351,7 +373,6 @@ dyn.write(file);
     * 回覆的通訊埠(不可為 10001、10002)
 
 
-
 4. 執行一些命令：
     * searchControllers
     * updateNetworkOption
@@ -369,11 +390,13 @@ dyn.write(file);
 String lan = "192.168.1.10";
 Y2ScreenFactory factory = new Y2ScreenFactory(lan);
 // 2.1
-factory.listenSearchController(new ResponseHandler<SearchControllerOutput>() {
+factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
 
 	@Override
 	public void run(String pid, String barcode, SearchControllerOutput output) {
-        // TODO:
+		System.out.println(pid);
+		System.out.println(barcode);
+		System.out.println(output.getIp());
 	}
 });
 // 2.2
@@ -381,7 +404,7 @@ factory.listenQueryWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
 
 	@Override
 	public void run(String pid, String barcode, QueryWifiStatusOutput output) {
-        // TODO:
+		System.out.println(pid +", " + output.getWifiStatus());
 	}
 });
 // 3

@@ -1,6 +1,7 @@
 仰邦 Y2 Java 函式库 (预览版)
 ===
 * [API Document](https://api2doc.github.io/onbon.y2.api/)
+
 ## 如何使用
 1. 初始化 Y2 API 环境。仅需一次。
     ```java
@@ -34,6 +35,28 @@
 
     // 4. 注销
     screen.logout();
+    ```
+3. 将命令广播给同一网路上所有的控制器。
+    ```java
+    // 1. initial a service
+    Y2ScreenFactory factory = new Y2ScreenFactory("192.168.1.1");
+
+    // 2. register a listen to handle responses.
+    factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
+
+		@Override
+		public void run(String pid, String barcode, SearchControllerOutput output) {
+			System.out.println(pid);
+			System.out.println(barcode);
+			System.out.println(output.getIp());
+		}
+	});
+
+    // 3. start
+    factory.start();
+
+    // 4. execute
+    factory.searchControllers();
     ```
 
 ## 范例
@@ -329,4 +352,65 @@ area.addText("We are happy to announce to release this API")
 
 // 将动态节目上传
 dyn.write(file);
+```
+
+## 范例 - 广播服务
+将命令广播给同一网路上所有的控制器。
+1. 在特定的网路上初始化服务
+
+
+2. 设定回覆处理介面(只需一次)：
+    * listenSearchControllers
+    * listenUpdateNetworkOption
+    * listenRestartNetwork
+    * listenConnectWifi
+    * listenQueryWifiStatus
+    * listenDisconnectWifi
+    * listenApProperty
+
+
+3. 启动
+    * 回覆的通讯埠(不可为 10001、10002)
+
+
+4. 执行一些命令：
+    * searchControllers
+    * updateNetworkOption
+    * restartNetwork
+    * connectWifi
+    * queryWifiStatus
+    * disconnectWifi
+    * modifyApProperty
+
+
+5. 结束
+
+```java
+// 1
+String lan = "192.168.1.10";
+Y2ScreenFactory factory = new Y2ScreenFactory(lan);
+// 2.1
+factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
+
+	@Override
+	public void run(String pid, String barcode, SearchControllerOutput output) {
+		System.out.println(pid);
+		System.out.println(barcode);
+		System.out.println(output.getIp());
+	}
+});
+// 2.2
+factory.listenQueryWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
+
+	@Override
+	public void run(String pid, String barcode, QueryWifiStatusOutput output) {
+		System.out.println(pid +", " + output.getWifiStatus());
+	}
+});
+// 3
+factory.start(10003);
+// 4.1
+factory.searchControllers();
+// 4.2
+factory.queryWifiStatus();
 ```
