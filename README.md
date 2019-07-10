@@ -137,7 +137,7 @@ There are two http drivers: __Apache HttpComponents__ and __OkHttp__. The defaul
     // 4. logout
     screen.logout();
     ```
-3. Broadcast a request to the controllers of the same network
+3. Broadcast a request to the controllers in the same network
     ```java
     // 1. initial a service
     Y2ScreenFactory factory = new Y2ScreenFactory("192.168.1.1");
@@ -456,18 +456,18 @@ dyn.write(file);
 ```
 
 ## Tutorial - Broadcast Service
-Broadcast commands to all controllers on the same network.
+Broadcast commands to all controllers in the same network.
 1. Choose a network to initial this service.
 
 
 2. Setup response Handlers just once
     * listenSearchControllers
-    * listenUpdateNetworkOption
+    * listenNetworkOption
     * listenRestartNetwork
     * listenConnectWifi
-    * listenQueryWifiStatus
+    * listenWifiStatus
     * listenDisconnectWifi
-    * listenApProperty
+    * listenApProperties
 
 
 3. Start the service
@@ -476,12 +476,12 @@ Broadcast commands to all controllers on the same network.
 
 4. Execute some commnads
     * searchControllers
-    * updateNetworkOption
+    * updateNetworkOption (__ONLY ONE__ controller in the same network)
     * restartNetwork
     * connectWifi
     * queryWifiStatus
     * disconnectWifi
-    * modifyApProperty
+    * updateApProperties (__ONLY ONE__ controller in the same network)
 
 
 5. Stop the service
@@ -501,7 +501,7 @@ factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
 	}
 });
 // 2.2
-factory.listenQueryWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
+factory.listenWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
 
 	@Override
 	public void run(String pid, String barcode, QueryWifiStatusOutput output) {

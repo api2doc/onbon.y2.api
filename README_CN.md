@@ -360,27 +360,27 @@ dyn.write(file);
 
 
 2. 设定回覆处理介面(只需一次)：
-    * listenSearchControllers
-    * listenUpdateNetworkOption
-    * listenRestartNetwork
-    * listenConnectWifi
-    * listenQueryWifiStatus
-    * listenDisconnectWifi
-    * listenApProperty
+    * listenSearchControllers - 搜寻控制器
+    * listenNetworkOption - 更新网路参数
+    * listenRestartNetwork - 重启
+    * listenConnectWifi - 连接 WIFI
+    * listenQueryWifiStatus - 查询 WIFI 状态
+    * listenDisconnectWifi - 中断 WIFI
+    * listenApProperties - 更新 AP 模式下的属性
 
 
 3. 启动
-    * 回覆的通讯埠(不可为 10001、10002)
+    * 回覆的通讯埠(不可为 10001、10002)
 
 
 4. 执行一些命令：
-    * searchControllers
-    * updateNetworkOption
-    * restartNetwork
-    * connectWifi
-    * queryWifiStatus
-    * disconnectWifi
-    * modifyApProperty
+    * searchControllers - 搜寻控制器
+    * updateNetworkOption - 更新网路参数 (网路上只能有一个控制器)
+    * restartNetwork - 重启
+    * connectWifi - 连接 WIFI
+    * queryWifiStatus - 查询 WIFI 状态
+    * disconnectWifi - 中断 WIFI
+    * updateApProperties 更新 AP 模式下的属性 (网路上只能有一个控制器)
 
 
 5. 结束
@@ -400,7 +400,7 @@ factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
 	}
 });
 // 2.2
-factory.listenQueryWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
+factory.listenWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
 
 	@Override
 	public void run(String pid, String barcode, QueryWifiStatusOutput output) {

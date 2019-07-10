@@ -359,14 +359,14 @@ dyn.write(file);
 1. 在特定的網路上初始化服務
 
 
-2. 設定回覆處理介面(只需一次)：
-    * listenSearchControllers
-    * listenUpdateNetworkOption
-    * listenRestartNetwork
-    * listenConnectWifi
-    * listenQueryWifiStatus
-    * listenDisconnectWifi
-    * listenApProperty
+2. 設定回覆處理監聽介面(只需一次)：
+    * listenSearchControllers - 搜尋控制器
+    * listenNetworkOption - 更新網路參數
+    * listenRestartNetwork - 重啟
+    * listenConnectWifi - 連接 WIFI
+    * listenQueryWifiStatus - 查詢 WIFI 狀態
+    * listenDisconnectWifi - 中斷 WIFI
+    * listenApProperties - 更新 AP 模式下的屬性
 
 
 3. 啟動
@@ -374,13 +374,13 @@ dyn.write(file);
 
 
 4. 執行一些命令：
-    * searchControllers
-    * updateNetworkOption
-    * restartNetwork
-    * connectWifi
-    * queryWifiStatus
-    * disconnectWifi
-    * modifyApProperty
+    * searchControllers - 搜尋控制器
+    * updateNetworkOption - 更新網路參數 (網路上只能有一個控制器)
+    * restartNetwork - 重啟
+    * connectWifi - 連接 WIFI
+    * queryWifiStatus - 查詢 WIFI 狀態
+    * disconnectWifi - 中斷 WIFI
+    * updateApProperties 更新 AP 模式下的屬性 (網路上只能有一個控制器)
 
 
 5. 結束
@@ -400,7 +400,7 @@ factory.listenSearchControllers(new ResponseHandler<SearchControllerOutput>() {
 	}
 });
 // 2.2
-factory.listenQueryWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
+factory.listenWifiStatus(new ResponseHandler<QueryWifiStatusOutput>() {
 
 	@Override
 	public void run(String pid, String barcode, QueryWifiStatusOutput output) {
