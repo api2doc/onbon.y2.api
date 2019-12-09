@@ -160,6 +160,19 @@ There are two http drivers: __Apache HttpComponents__ and __OkHttp__. The defaul
     factory.searchControllers();
     ```
 
+### Using HTTPS
+The environment to build a HTTPS connection is __Java 8__ only. And you also need to get the certificate file (pem or cer) of the Y2 controller or the Y2 proxy server
+
+To initial Y2 runtime envrionment for HTTPS:
+```java
+// with log4j and JDK 8
+Y2Env.initial("log.properties", true);
+
+// endpoint: Endpoint of the Y2 controller or Y2 proxy server, ex: https://1.2.3.4
+// filePath: The certiricate file, ex: secure/y2.pem
+Y2Env.addSecureTrust(endpoint, filePath);
+```
+
 
 ## Toturial
 ### Simple Operations
@@ -449,11 +462,16 @@ DynamicPlayFile file = new DynamicPlayFile();
 // dynamic area
 DynamicArea area = file.create(0, 0, 100, 40);
 area.addText("Welcome to ONBON");
-area.addText("We are happy to announce to release this API")
+area.addText("We are happy to announce to release this API");
+
+// play with program No 1.
+area.setRunMode(RunPGMode.PROGRAM_SYNC, 1);
 
 // upload to Y2
 dyn.write(file);
 ```
+
+
 
 ## Tutorial - Broadcast Service
 Broadcast commands to all controllers in the same network.

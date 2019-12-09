@@ -59,6 +59,19 @@
     factory.searchControllers();
     ```
 
+### 使用 HTTPS
+API 僅能在 __Java 8__ 環境建立 HTTPS 連線，同時還需取得控制器或中轉服務器的憑證檔案 (pem 或 cer)。
+
+初始化 HTTPS 運行環境：
+```java
+// with log4j and JDK 8
+Y2Env.initial("log.properties", true);
+
+// endpoint: 控制器或中轉服務器位址，如 https://1.2.3.4
+// filePath: 憑證檔案，如 secure/y2.pem
+Y2Env.addSecureTrust(endpoint, filePath);
+```
+
 ## 範例
 ### 簡單的操作
 ```java
@@ -81,7 +94,7 @@ screen.clearPlayResources();
 screen.logout();
 ```
 
-### 撥放一個跑馬燈
+### 播放一個跑馬燈
 ```java
 // 1
 Y2Screen screen = new Y2Screen("http://1.2.3.4");
@@ -103,14 +116,14 @@ area.addContent("We are happy to announce that Y2 Java library has released.")
         .size(20);
 
 
-// 3.2 建立一個可撥放的節目
+// 3.2 建立一個可播放的節目
 ProgramPlayFile prog = new ProgramPlayFile(1);
 prog.getAreas().add(area);
 
-// 3.3 寫入節目，取得撥放清單編號。
+// 3.3 寫入節目，取得播放清單編號。
 String listId = screen.writePlaylist(playFile);
 
-// 3.4 撥放
+// 3.4 播放
 screen.play(listId);
 
 // 4
@@ -349,6 +362,9 @@ DynamicPlayFile file = new DynamicPlayFile();
 DynamicArea area = file.create(0, 0, 100, 40);
 area.addText("Welcome to ONBON");
 area.addText("We are happy to announce to release this API")
+
+// 與節目 1 一起播放
+area.setRunMode(RunPGMode.PROGRAM_SYNC, 1);
 
 // 將動態節目上傳
 dyn.write(file);
