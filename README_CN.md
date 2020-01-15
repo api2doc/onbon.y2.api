@@ -72,6 +72,23 @@ Y2Env.initial("log.properties", true);
 Y2Env.addSecureTrust(endpoint, filePath);
 ```
 
+### 启用素材认证
+```java
+//
+Y2Screen screen = new Y2Screen("http://1.2.3.4");
+
+// 载入 PFX 资讯
+// pfxFile: PFX 档案，如 secure/y2.pfx
+// password: PFX 档案密码
+screen.loadPfx(pfxFile, password);
+
+// 加载凭证档案至控制器
+screen.enableCertificate();
+
+// 切换控制器素材认证方式
+screen.swtichMaterialVerify(MaterialVerifyType.SHA1);
+```
+
 ## 范例
 ### 简单的操作
 ```java
